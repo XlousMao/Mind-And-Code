@@ -1,0 +1,1 @@
+import{_ as a,c as t,o as r,ae as o}from"./chunks/framework.BLtQ3D6F.js";const m=JSON.parse('{"title":"LeetCode 刷题博客","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),l={name:"index.md"};function i(n,e,s,d,h,u){return r(),t("div",null,[...e[0]||(e[0]=[o("",10)])])}const _=a(l,[["render",i]]);export{m as __pageData,_ as default};
