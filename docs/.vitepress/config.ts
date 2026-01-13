@@ -72,6 +72,7 @@ function formatProblemName(fileName: string): string {
 export default defineConfig({
   title: 'LeetCode Hot100 题解',
   description: 'LeetCode 热门 100 题的详细解析',
+  base: '/Mind-And-Code/',
   ignoreDeadLinks: true,
   vite: {
     resolve: {
