@@ -23,14 +23,15 @@ function generateSidebar(dirPath: string, basePath: string = ''): any[] {
       if (subItems.length > 0) {
         sidebarItems.push({
           text: formatCategoryName(item),
-          items: subItems
+          items: subItems,
+          collapsed: true  // 默认折叠子菜单
         })
       }
     } else if (stats.isFile() && item.endsWith('.md')) {
       // 如果是 markdown 文件，添加到侧边栏
       const fileName = item.replace('.md', '')
       sidebarItems.push({
-        text: formatProblemName(fileName),
+        text: fileName === 'index' ? '板块首页' : formatProblemName(fileName),
         link: path.join(basePath, fileName).replace(/\\/g, '/')
       })
     }
@@ -52,7 +53,10 @@ function formatCategoryName(category: string): string {
     'binary-search': '二分查找',
     'backtracking': '回溯',
     'sliding-window': '滑动窗口',
-    'two-pointers': '双指针'
+    'two-pointers': '双指针',
+    'algorithms': '算法',
+    'projects': '项目',
+    'about': '关于我'
   }
   return categoryMap[category] || category
 }
@@ -70,8 +74,8 @@ function formatProblemName(fileName: string): string {
 }
 
 export default defineConfig({
-  title: 'LeetCode Hot100 题解',
-  description: 'LeetCode 热门 100 题的详细解析',
+  title: 'My Blog',
+  description: '个人博客 - 包含算法学习、项目实践和个人介绍',
   base: '/Mind-And-Code/',
   ignoreDeadLinks: true,
   vite: {
@@ -82,25 +86,74 @@ export default defineConfig({
     }
   },
   themeConfig: {
+    // 侧边栏配置
     sidebar: [
+      {
+        text: '首页',
+        link: '/',
+        collapsible: false  // 首页不折叠
+      },
+      {
+        text: '算法',
+        items: [
+          {
+            text: 'Hot100',
+            items: generateSidebar(path.resolve(__dirname, '../hot100'), '/hot100/'),
+            collapsed: true
+          }
+        ],
+        collapsible: true,  // 允许折叠
+        collapsed: false    // 默认展开
+      },
+      {
+        text: '项目',
+        items: generateSidebar(path.resolve(__dirname, '../projects'), '/projects/'),
+        collapsible: true,
+        collapsed: true
+      },
+      {
+        text: '关于我',
+        link: '/about/',
+        collapsible: false
+      }
+    ],
+    // 导航栏配置
+    nav: [
       {
         text: '首页',
         link: '/'
       },
       {
-        text: 'Hot100',
-        items: generateSidebar(path.resolve(__dirname, '../hot100'), '/hot100/')
-      }
-    ],
-    nav: [
-      {
-        text: 'Home',
-        link: '/'
+        text: '算法',
+        items: [
+          {
+            text: 'Hot100',
+            link: '/hot100/'
+          }
+        ]
       },
       {
-        text: 'Hot100',
-        link: '/hot100/'
+        text: '项目',
+        link: '/projects/'
+      },
+      {
+        text: '关于我',
+        link: '/about/'
       }
-    ]
+    ],
+// 主题配置
+    theme: {
+      // 启用自定义主题
+      customTheme: true
+    },
+    // 其他主题配置
+    logo: '/logo.png',
+    search: {
+      provider: 'local'
+    },
+    outline: {
+      level: [2, 3],
+      label: '页面导航'
+    }
   }
 })
